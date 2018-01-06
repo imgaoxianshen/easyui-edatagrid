@@ -1,0 +1,852 @@
+{js:my97date}
+<style type='text/css'>
+
+.commend{
+	padding:2px 0 ;
+	border-radius:2px;
+	display: inline;
+	background-color:rgba(243, 106, 34,.6);
+	margin-left: 2px;
+}
+
+.commend span {
+	margin-left:-2px;
+}
+
+
+.commend_del{
+	display: inline;
+	margin-left:-9px;
+	padding-right:5px;
+	color:rgba(0,0,255,.6);
+	font-weight: bold;
+}
+.data_img{
+
+	border-radius:50%;
+	width:40px;
+	height:40px;
+	margin:2px 10px;
+	border:2px solid #F5F5F5;
+	box-shadow: 0 0 0 2px rgba(243, 106, 34,.4);
+}
+.watch{
+	display: none;
+	background-color: rgba(243, 106, 120,.6);
+	border:2px solid #F5F5F5;
+	color:#fff;
+		border-radius:30px;
+	padding:3px 10px;
+	font-size:7px;
+	text-align:center; 
+	font-weight:bold;
+	margin-left: 5px;
+
+}
+.asd:hover .watch{
+	display: inline;
+}
+
+.goods_in_block{
+	background-color:rgba(0,0,0,.5);
+	z-index: 9999;
+	position:fixed;
+	left:35%;
+	top:25%;
+	width:500px;
+	height:250px;
+	border:2px solid;
+	border-radius: 10px;
+	display: none;
+}
+
+.goods_in_block p {
+	color:#fff;
+	position: absolute;
+	right: 10px;
+	display: inline;
+}
+
+.goods_in_block span{
+	color:#fff;
+}
+
+.block_top{
+	background-color:rgba(0,0,0,.5);
+	width:100%;
+	height:20px;
+}
+
+.block_top span{
+	display: inline-block;
+}
+
+.do{
+	margin-top:-3px;
+	background-color:rgba(0,0,0,.1);
+	height:24px;
+}
+
+#do:hover{
+	background-color:rgba(0,0,0,.2);
+}
+
+.commend span{
+	border-radius:30px;
+	padding:3px 10px;
+	font-size:7px;
+	text-align:center; 
+	font-weight:bold
+}
+
+
+.pay{
+	border:2px solid #F36A22;
+	background:rgba(243, 106, 34,.6);
+	border-radius:30px;
+	padding:3px 10px;
+	font-size:7px;
+	text-align:center; 
+	font-weight:bold
+}
+
+.color{
+	color:rgba(100, 50, 140,.5);
+}
+
+.order{
+	border:2px solid #8B8386;
+	background:rgba(150, 150, 50,.6);
+}
+
+.order_bad{
+	color:#8B0000;
+}
+
+.send{
+	border:2px solid #4169E1;
+	background:rgba(0, 150, 230,.6);
+}
+
+.send_bad{
+	color:rgba(100, 50, 140,.5);
+}
+.btn_m{
+	margin-bottom: 5px
+}
+
+.select{
+	width:100px;
+	padding:4px 0px;
+	background-color:rgba(96,96,96,.05); 
+	border-radius:2px;
+}
+
+.border{
+	margin-top: 50px;
+	text-align:center;
+}
+
+#file{
+	display:inline-block;
+	
+}
+
+#aaa{
+	display: block;
+	width: 250px;
+	margin:20px auto;
+}
+
+.loading{
+	position:fixed;
+	color:red;
+	left:50%;
+	z-index:999;
+	top:50%;
+	background-image:url(views/sysdefault/javascript/jeasyui/themes/bootstrap/images/loading.gif);
+	background-repeat:no-repeat;
+	background-size:100%;
+	height: 30px;
+	width: 30px;
+}
+
+
+
+</style>
+<script type="text/javascript" src='<?php echo IUrl::creatUrl("")."views/".$this->theme."/javascript/jquery.edatagrid.js";?>'></script>
+<div class="content_box">
+	<div class="normalheader transition " id="smallPicBox">
+		<div class="hpanel">
+			<div class="panel-body">
+				<div class="headbar"><?php echo Menu::nav(); ?></div>
+			</div>
+		</div>
+	</div>	
+
+<div class="content">
+		<div  id='tool_dg'>
+	<div class="row">
+			<div style="margin-bottom:5px;" align="left">
+
+<div class="col-md-5  bootstrap-over-padding">
+<div class="note-height">
+<button type="button" class="btn btn_m"  onclick="window.location='{url:/goods/goods_edit}'"/>添加商品</button>
+<!-- <button type="button" class="btn btn_m"  onclick="watchgoods()"/>查看商品</button> -->
+
+<!-- <button type="button" class="btn btn_m"  onclick="order_deal('watch')"/>查看订单</button>
+<button type="button" class="btn btn_m"  onclick="order_deal('edit');"/>编辑订单</button> -->
+<!-- <button type="button" class="btn btn_m"  onclick="del_goods();"/>批量删除商品</button> -->
+<a href="#" class="easyui-menubutton do" menu="#mm1" >商品操作</a>
+<a href="#" class="easyui-menubutton do" menu="#mm2" >商品推荐</a>
+<a href="#" class="easyui-menubutton do" menu="#mm3" >设置商品模板</a>
+<button id="goods_in" type="button" class="btn btn_m"/>商品导入</button>
+<button  class="btn btn_m"><a href="/static/goods_in.xlsx">模板下载</a></button>
+
+
+
+
+
+<!-- <button class="operating_btn" type="button" onclick="goodsWpageConnect();"><span class="grade">设置商品模板</span></button> -->
+<!-- <button type="button" class="btn btn_m"  onclick="order_deal('merge');"/>联合打印</button> --> 
+</div> 
+                          </div>
+                    
+<div class="col-md-7 bootstrap-over-padding">
+
+			<div class="toolbar_find">
+			<form id="form1">								
+				<select class="auto" name="search[seller_id]">
+					<option value="">选择商品所属</option>
+					<option value="=0">平台商品</option>
+					<option value="!=0">商户商品</option>
+				</select>
+				<select class="auto" name="search[category_id]">
+					<option value="">选择分类</option>
+					{foreach:items = $category}
+					<option value="{$item['id']}">{$item['name']}</option>
+					{/foreach}
+				</select>
+
+				<select class="auto" name="search[is_del]">
+					<option value="">选择上下架</option>
+					<option value="0">上架</option>
+					<option value="2">下架</option>
+					<option value="3">待审</option>
+				</select>
+
+				<select class="auto" name="search[store_nums]">
+					<option value="">选择库存</option>
+					<option value="go.store_nums < 1">无货</option>
+					<option value="go.store_nums >= 1 and go.store_nums < 10">低于10</option>
+					<option value="go.store_nums <= 100 and go.store_nums >= 10">10-100</option>
+					<option value="go.store_nums >= 100">100以上</option>
+				</select>
+				<select class="auto" name="search[commend_id]">
+					<option value="">选择商品标签</option>
+					<option value="1">最新商品</option>
+					<option value="2">特价商品</option>
+					<option value="3">热卖商品</option>
+					<option value="4">推荐商品</option>
+				</select>
+			
+			<!-- 	<input id="search" class="select" name="search[star_time]" type="text"  placeholder="开始时间"  onfocus="WdatePicker()"/>			
+				<input id="search" class="select" name="search[end_time]" type="text"  placeholder="截止时间"  onfocus="WdatePicker()"/> -->
+				
+				<select class="auto" name="search[name]">
+					<option value="go.name">商品名</option>
+					<option value="go.goods_no">商品货号</option>
+					<option value="seller.true_name">商户真实名称</option>
+				</select>
+				<input class="small" id="search" name="search[keywords]" type="text" value="" />
+
+				<!-- <input id="search" class="small" name="search[keywords]" type="text"/> -->
+				<input type="button" value="查询" onclick="CommonFind('dg','form1')" class="btn btn_best">	
+				<input id="excel" style="background-color:green !important;" class="btn btn_best"" type="button" value="导出" onclick=""></button>
+			
+			</form>
+	</div>
+
+</div>
+
+<div class="goods_in_block" style="margin-left:2px">
+	<div class="block_top"><span>上传excel文件(跨境使用)：</span><a href="#"><p id="close">X</p></a></div>
+
+			<div class="border">
+								
+				<input id="file" class="btn" type="file" name="file"  style="width:250px;"/>
+				
+			<button class="btn" id="aaa">上传</button>
+			
+				<span id="msg" style="float:right;overflow:hidden;margin-left: 10px;"></span>
+				<span id="success" style="float:right"></span>
+			</div>
+</div>
+
+
+</div>
+</div>
+ </div>
+
+ <div id="loading"></div>
+
+<div id="mm1">
+
+			<div type="button"  onclick="goods_stats('up');"/>上架</div>
+
+			<div type="button"  onclick="goods_stats('down');"/>下架</div>
+
+			<div type="button"  onclick="goods_stats('check');"/>待审</div>
+			<div type="button"  onclick="del_goods();"/>批量删除商品</div>
+
+</div>
+
+<div id="mm2">
+
+			<div type="button"  onclick="commend_set(1);"/>最新商品</div>
+
+			<div type="button"  onclick="commend_set(2);"/>特价商品</div>
+
+			<div type="button"  onclick="commend_set(3);"/>热卖商品</div>
+
+			<div type="button"  onclick="commend_set(4);"/>推荐商品</div>
+
+</div>
+
+<div id="mm3">
+	{foreach:items = $wpage}
+			<div type="button"  onclick="wpage_set({$item['id']});"/>{$item['title']}</div>
+	{/foreach}
+</div>
+
+<div class="easyui-layout" data-options="fit:true"> 
+
+<div region="center" style="padding:5px;background:#eee;">
+ <table id="dg" data-options="toolbar:'#tool_dg',url:'{url:/goods/lst_goods}',rownumbers:true,singleSelect:true,checkOnSelect:false,selectOnCheck:false,fit:true,fitColumns:true,pagination:true,pageSize:20,method:'post'"
+                       idField='id'
+                     class='easyui-datagrid'>
+                 <thead frozen="true">			
+                <tr>
+                <th field="ckSelect" checkbox="true"></th> </tr>   
+                </thead>
+                <thead>
+                                <tr>
+                                        
+                                        <th data-options="field:'img',width:60,sortable:true" formatter="formatimg">商品</th>
+                                        <th data-options="field:'name',width:400,sortable:true" formatter="formatname">商品名称</th>
+                                        <th data-options="field:'is_del',width:70,sortable:true" formatter="formattype">状态</th>
+                                        <th data-options="field:'goods_no',width:100,sortable:true">货号</th>
+                                        <th data-options="field:'market_price',width:80,sortable:true">市场价</th>
+                                        <th data-options="field:'sell_price',width:80,sortable:true" >销售价</th>
+                                        <th data-options="field:'other_price',width:80,sortable:true">报关价</th>
+                                        <th data-options="field:'store_nums',width:80,sortable:true">库存</th>
+                                        <th data-options="field:'sale',width:100,sortable:true"   editor="{type:'text'}">销量</th>
+                                        <th data-options="field:'unit',width:80,sortable:true">计量单位</th>                                                                                                 
+                                        <th data-options="field:'sort',width:70,sortable:true">排序</th>
+                                        <th data-options="field:'commend',width:300,sortable:true" formatter="formatcommends">商品推荐</th>
+                                        <th data-options="field:'wpage',width:100	,sortable:true" formatter="foematwpage">商品模板</th>
+                                                                         
+                                </tr>
+                        </thead>
+                </table>
+ </div>
+            
+</div>
+
+</div>
+
+
+
+<!--推荐更新模板-->
+<!-- <script id="goodsCommendTemplate" type="text/html">
+<form name="commendForm">
+<table class="border_table" style="width:100%">
+	<thead>
+		<tr>
+			<th>商品</th>
+			<th>推荐选项</th>
+		</tr>
+	</thead>
+	<tbody>
+	<%for(var item in templateData){%>
+		<%item=templateData[item]%>
+		<tr>
+			<td>
+				<%=item['name']%>
+			</td>
+			<td>
+				<label class="attr"><input type="checkbox" name="data[<%=item['id']%>][]" value="1" <%if(item['commend'] && item['commend'][1]){%>checked="checked"<%}%> />最新商品</label>
+				<label class="attr"><input type="checkbox" name="data[<%=item['id']%>][]" value="2" <%if(item['commend'] && item['commend'][2]){%>checked="checked"<%}%> />特价商品</label>
+				<label class="attr"><input type="checkbox" name="data[<%=item['id']%>][]" value="3" <%if(item['commend'] && item['commend'][3]){%>checked="checked"<%}%> />热卖商品</label>
+				<label class="attr"><input type="checkbox" name="data[<%=item['id']%>][]" value="4" <%if(item['commend'] && item['commend'][4]){%>checked="checked"<%}%> />推荐商品</label>
+			</td>
+		</tr>
+	<%}%>
+	</tbody>
+</table>
+</form>
+</script> -->
+
+
+
+</div>
+<script>
+
+
+
+	$(function(){
+
+		$('#dg').edatagrid({
+			onError: function(index,row){
+				alert(row.return_msg);
+			}
+		});
+
+
+		$('#search').focus(function(){
+			$(this).keydown( function(e) {	
+		    var key = window.event?e.keyCode:e.which;
+		    if(key.toString() == "13"){
+		    	CommonFind('dg','form1');
+		        return false;
+    		}
+			});
+		});
+
+
+		$('#aaa').click(function(){
+		if($('#file')[0].files[0]){
+			var filename = $('#file')[0].files[0].name;
+
+			var formData = new FormData();
+			formData.append("file",$("#file")[0].files[0]);
+		
+			if(confirm('确定要导入'+filename+'吗?')){
+
+				$.ajax({
+					url:"{url:/goods/goods_excel_upload}",
+					type:"POST",
+					cache : false,
+					processData : false,
+					contentType : false,
+					data:formData,
+					success:function(data){
+						// $("#success").remove();
+						if(data.code<0){
+							alert(data.return_msg);
+						}
+						if(data.code==1){
+							$('#success').html('上传成功,批次号为</span><span style="color:rgba(0,255,0,.8);">'+data.data);
+							send_message(data.data);
+						}
+
+					},
+					error:function(){
+						console.log(2222);
+					},
+				});
+
+			}else{
+				console.log(1);
+			}
+		}else{
+			alert("请先选择文件");
+		}
+	})
+
+
+
+
+function send_message(lot){
+	$.ajax({
+		type:"post",
+		url:'{url:/goods/make_goods_in}',
+		data:{'lot':lot},
+		dataType:"json",
+		timout:10000,
+		success:function(data){
+			if(data.code==1){
+				//还有的情况
+				send_message(lot);
+			}else{
+				$('#dg').datagrid("reload");
+			}
+		
+			var str = "";
+			$.each(data.return, function(idx, obj) {
+    			str+='<span style ="margin-left:15px;">'+obj.status+'  = ></span><span style="color:rgba(0,255,0,.8);">'+obj.count+"条"+'</span>';
+			});
+
+			$('#msg').html(str);
+
+
+		},
+		error:function(data){
+
+		},
+		complete:function(XMLHttpRequest,textStatus){
+			if(textStatus=='timeout'){  
+            	send_message();
+          	}
+		}
+	})
+}
+
+
+
+$("#goods_in").click(function(){
+	$(".goods_in_block").fadeToggle();
+});
+
+$("#close").click(function(){
+	$(".goods_in_block").fadeToggle();
+});
+
+	});
+
+//商品推荐操作
+
+function commend_set(commend_id){
+	var rows = $("#dg").datagrid("getChecked");
+
+	if(rows.length>0){
+		var idsarr = [];
+
+		for(var i=0;i<rows.length;i++){
+			idsarr.push(rows[i].id);
+		}
+
+		$.ajax({
+			type:'post',
+			url:"{url:/goods/update_commend_new}",
+			data:{ids:idsarr.join(),commend_id:commend_id},
+			dataType:'json',
+			beforeSend:function(XMLHttpRequest){
+				$('#loading').addClass("loading");
+			},
+			success:function(data){
+				
+			alert(data.return_msg);
+			$("#dg").datagrid("reload");
+			$('#loading').removeClass("loading");
+			},
+			error:function(data){
+
+			}
+		});
+
+
+	}else{
+		alert("请先勾选你要推荐的商品");
+	}
+}
+
+
+function wpage_set(wpage_id){
+	var rows = $("#dg").datagrid("getChecked");
+
+	if(rows.length>0){
+		var idsarr = [];
+
+		for(var i=0;i<rows.length;i++){
+			idsarr.push(rows[i].id);
+		}
+
+		$.ajax({
+			type:'post',
+			url:"{url:/goods/wpage_set}",
+			data:{ids:idsarr.join(),wpage_id:wpage_id},
+			dataType:'json',
+			beforeSend:function(XMLHttpRequest){
+				$('#loading').addClass("loading");
+			},
+			success:function(data){
+				
+			alert(data.return_msg);
+			$("#dg").datagrid("reload");
+			$('#loading').removeClass("loading");
+			},
+			error:function(data){
+
+			}
+		});
+
+
+	}else{
+		alert("请先勾选你要推荐的商品");
+	}
+}
+
+
+function del_commend(commend_id,goods_id)
+{
+
+	$.ajax({
+		type:'post',
+		url:"{url:/goods/del_commend}",
+		data:{commend_id:commend_id,goods_id:goods_id},
+		dataType:"json",
+		success:function(data){
+			console.log(data);
+			if(data.code>0){
+				$("#dg").datagrid("reload");
+			}
+		},
+	});
+}
+
+
+//上下架操作
+function goods_stats(type)
+{
+	var rows = $("#dg").datagrid("getChecked");
+	
+	if(rows.length>0)
+	{
+		var idsarr = [];
+		for(var i=0;i<rows.length;i++){
+			idsarr.push(rows[i].id);
+		}
+
+		$.ajax({
+			'type':'post',
+			'url':"{url:/goods/goods_status_new}",
+			'data':{ids:idsarr.join(),type:type},
+			'dataType':'json',
+			success:function(data){
+				if(data.code>0){
+					alert("操作成功");
+				}else{
+					alert(data.return_msg);
+				}
+				$("#dg").datagrid("reload");
+			},
+		});
+	}
+	else
+	{
+		alert('请勾选要操作的商品!');
+		return false;
+	}
+}
+
+// var current_checked=[];
+// //商品批量共享
+// function goodsWpageConnect()
+// {
+// 	current_checked=[];
+// 	var rows = $("#dg").datagrid("getChecked");
+
+// 	if(rows.length>0)
+// 	{
+// 		var idString = [];
+// 		for(var i=0;i<rows.length;i++){
+// 			idString.push(rows[i].id);
+// 		}
+
+// 		current_checked=idString;
+// 		openProductDlg();
+
+// 	}
+// 	else
+// 	{
+// 		alert("请选择您要操作的商品");
+// 	}
+// }
+
+
+
+
+// function changeAction(excel) {
+// 	if (excel == 3) {
+// 		$("input[name=\"action\"]").val("statistical_report");
+// 		$("form[name=\"order_list\"]").attr("target", "_self");
+// 	} else if (excel == 2) {
+// 		$("input[name=\"action\"]").val("order_report");
+// 		$("form[name=\"order_list\"]").attr("target", "_blank");
+// 	} else if (excel == 4) {
+// 		$("input[name=\"action\"]").val("orderToErp_report");
+// 		$("form[name=\"order_list\"]").attr("target", "_blank");
+// 	} else {
+// 		$("input[name=\"action\"]").val("order_list");
+// 		$("form[name=\"order_list\"]").attr("target", "_self");
+// 	}
+// }
+
+
+// //商品推荐标签
+// function goodsCommend()
+// {
+// 	var rows = $("#dg").datagrid("getChecked");
+
+// 	if(rows.length>0)
+// 	{
+// 		var idString = [];
+// 		for(var i=0;i<rows.length;i++){
+// 			idString.push(rows[i].id);
+// 		}
+
+// 		$.getJSON("{url:/block/goodsCommend}",{"id":idString.join(',')},function(json)
+// 		{
+// 			var templateHtml = template.render("goodsCommendTemplate",{'templateData':json});
+
+// 			art.dialog(
+// 			{
+// 				okVal:"保存",
+// 			    content: templateHtml,
+// 			    ok:function(iframeWin)
+// 			    {
+// 			    	var formObj = iframeWin.document.forms['commendForm'];
+// 			    	$.getJSON("{url:/goods/update_commend}",$(formObj).serialize(),function(content)
+// 			    	{
+// 			    		if(content.result == 'fail')
+// 			    		{
+// 			    			alert(content.data);
+// 			    		}
+// 			    	});
+// 			    }
+// 			});
+// 		});
+// 	}
+// 	else
+// 	{
+// 		alert("请选择您要操作的商品");
+// 	}
+// }
+
+
+$('#dg').edatagrid({
+	url:'{url:/goods/lst_goods}',
+	updateUrl:'{url:/goods/order_update_sale}',
+});
+
+document.onkeydown = function(e){
+	var key = window.event?e.keyCode:e.which;
+	if(key.toString() == "13"){
+		$('#dg').edatagrid("saveRow");
+		console.log(1);
+	}
+}
+
+
+
+function del_goods(){
+	var row = $('#dg').datagrid("getChecked");
+	var arrIds = [];
+	for(var i=0;i<row.length;i++){
+		arrIds.push(row[i].id);
+	}
+	if(row.length>0){
+		if(confirm("是否删除这"+row.length+"个商品")){
+			$.ajax({
+				type:'post',
+				url:'{url:/goods/del_goods}',
+				data: {ids:arrIds.join()},
+				dataType:'json',
+				success:function(data){
+					alert(data.return_msg);
+					$('#dg').datagrid("reload",{});
+				}
+			});
+
+		}else{
+			console.log(2);
+		}
+	}else{
+		alert("请先勾选你要删除的商品");
+	}
+}
+
+function del_wpage(goods_id)
+{
+	$.ajax({
+		type:'post',
+		url:'{url:/goods/del_wpage_connect}',
+		data:{goods_id:goods_id},
+		dataType:'json',
+		success:function(data){
+			// alert(data.return_msg);
+			$('#dg').datagrid("reload");
+		},
+	});
+}
+
+
+function formatimg(val,row){
+	if(!val){
+		return '<img src="/static/define.png" class="data_img"/>';
+	}else{
+		return '<img src="'+val+'" class="data_img"/>';
+	}
+}
+
+
+function formatsale(val,row){
+	var index = $('#dg').datagrid('getRowIndex', row);
+	return "<input class='sale' id='sale_"+index+"' value='"+val+"'/>"
+}
+
+function formatname(val,row){
+	return "<div class='asd'><span>"+val+"</span><span class='watch' onclick='watchgoods("+row.id+")'>查看商品</span></div>";
+}
+
+
+
+function watchgoods(id){
+	// var row = $("#dg").datagrid("getSelected");
+	if(id){
+		window.location='{url:/goods/goods_edit/id/'+id+'}';
+	}else{
+		alert("请先选中你要查看的商品");
+	}
+}
+
+
+function formatcommends(val,row){
+	if(val){
+		var base = val.split(",");
+		var end = [];
+
+		for(var i=0;i<base.length;i++){
+			switch(base[i]){
+				case "1":end.push("<div class='commend'><span>最新商品</span><a class='commend_del' onclick='del_commend(1,"+row.id+");'>x</a></div>"); break;
+				case "2":end.push("<div class='commend'><span>特价商品</span><a class='commend_del' onclick='del_commend(2,"+row.id+");'>x</a></div>"); break;
+				case "3":end.push("<div class='commend'><span>热卖商品</span><a class='commend_del' onclick='del_commend(3,"+row.id+");'>x</a></div>"); break;
+				case "4":end.push("<div class='commend'><span>推荐商品</span><a class='commend_del' onclick='del_commend(4,"+row.id+");'>x</a></div>"); break;
+				default: end.push("<div class='commend'><span>其他</span></div>");
+			}
+		}
+		return end.join("");
+	}else{
+		return "<div class='commend'><span>无</span></div>";
+	}
+}
+
+function foematwpage(val,row){
+	if(val!="无"){
+		return "<div class='commend'><span>"+val+"</span><a class='commend_del' onclick='del_wpage("+row.id+");'>x</a></div>";
+	}else{
+		return "<div class='commend'><span>无</span></div>";	
+	}
+}
+
+function formattype(val,row){
+	switch(val){
+		case "0":return "<span class='pay' >上架中</span>";
+		case "1":return "<span class='pay color'>已删除</span>";
+		case "2":return "<span class='pay color'>已下架</span>";
+		case "3":return "<span class='pay color'>申请上架</span>";
+		default: return "<span class='pay color'>其他</span>";
+	}
+}
+
+
+$('#excel').click(function(){
+		CommonExport('dg','form1','{url:/goods/lst_goods}' );return; 
+	  
+});
+
+
+
+
+</script>
